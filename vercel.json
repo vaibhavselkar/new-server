@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "name": "server", 
+    "builds": [
+      {
+        "src": "app.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/app.js"
+      }
+    ],
+    "env": {
+      "MONGODB_URI": "@mongodb_uri", 
+      "SECRET_KEY": "@secret_key",
+      "PORT": "4000"
+    }
+  }
+  
