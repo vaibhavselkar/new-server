@@ -14,7 +14,7 @@
     }
   ],
   "env": {
-    "MONGODB_URI": "mongodb+srv://vaibhavselkar321:WZzMyeC2XqKRtBPr@cluster0.o3kftzp.mongodb.net/sanghamitra_learning?retryWrites=true&w=majority&appName=Cluster0",
+    "DATABASE": "mongodb+srv://vaibhavselkar321:WZzMyeC2XqKRtBPr@cluster0.o3kftzp.mongodb.net/sanghamitra_learning?retryWrites=true&w=majority&appName=Cluster0",
     "SECRET_KEY": "SANGHAMITRAISBUILDINGLEARNINGPLATFORM",
     "PORT": "4000"
   }
