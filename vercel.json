@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "name": "my-node-app",
+  "name": "server",
   "builds": [
     {
-      "src": "index.js",
+      "src": "app.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "/app.js"
     }
   ],
   "env": {
