@@ -12,11 +12,6 @@
         "src": "/(.*)",
         "dest": "/app.js"
       }
-    ],
-    "env": {
-      "DATABASE": "@database", 
-      "SECRET_KEY": "@secret_key",
-      "PORT": "4000"
-    }
+    ]
   }
   
