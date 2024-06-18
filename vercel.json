@@ -1,17 +1,21 @@
 {
-    "version": 2,
-    "name": "server", 
-    "builds": [
-      {
-        "src": "app.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/app.js"
-      }
-    ]
+  "version": 2,
+  "name": "my-node-app",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://vaibhavselkar321:WZzMyeC2XqKRtBPr@cluster0.o3kftzp.mongodb.net/sanghamitra_learning?retryWrites=true&w=majority&appName=Cluster0",
+    "SECRET_KEY": "SANGHAMITRAISBUILDINGLEARNINGPLATFORM",
+    "PORT": "4000"
   }
-  
+}
