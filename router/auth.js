@@ -61,7 +61,7 @@ router.post('/signin', async (req, res) => {
     }
 });
 
-/ New route to fetch all documents from the 'sample' collection
+// New route to fetch all documents from the 'sample' collection
 router.get('/samples', async (req, res) => {
     try {
         const samples = await mongoose.connection.db.collection('sample').find({}).toArray();
