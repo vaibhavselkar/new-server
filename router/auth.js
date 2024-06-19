@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+
+const authenticate = require('../middleware/authenticate');
 
 require('../db/conn');
 const User = require('../model/userSchema');
@@ -34,31 +37,46 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Please provide all fields' });
+    }
+
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ error: 'Please add all fields' });
-        }
         const user = await User.findOne({ email: email });
+
         if (!user) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
+
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        const token = await user.generateAuthToken();
-        console.log(token);
-        //saving the token in cookie
+
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+        
+        // Set JWT token in cookie with secure options
         res.cookie('jwtoken', token, {
-            expires: new Date(Date.now() + 25892000000),
-            httpOnly: true
-        })
+            expires: new Date(Date.now() + 25892000000), // Expires in 30 days
+            httpOnly: true, // Set to true to enable HTTP-only cookie
+        });
 
         res.status(200).json({ message: 'User signed in successfully', token: token });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.error('Error signing in user:', error);
+        res.status(500).json({ error: 'Server error, failed to sign in' });
     }
+});
+
+
+router.get('/dashboard', authenticate, (req, res) => {
+    console.log('Inside /dashboard route')
+    res.send(req.rootUser);
+    res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
+    console.log('User Data:', req.rootUser);
 });
 
 // New route to fetch all documents from the 'sample' collection
@@ -71,7 +89,5 @@ router.get('/samples', async (req, res) => {
         console.log(err);
     }
 });
-
-
 
 module.exports = router
