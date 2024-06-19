@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 require('../db/conn');
 const User = require('../model/userSchema');
@@ -59,5 +60,18 @@ router.post('/signin', async (req, res) => {
         console.log(err);
     }
 });
+
+/ New route to fetch all documents from the 'sample' collection
+router.get('/samples', async (req, res) => {
+    try {
+        const samples = await mongoose.connection.db.collection('sample').find({}).toArray();
+        res.status(200).json(samples);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch samples' });
+        console.log(err);
+    }
+});
+
+
 
 module.exports = router
