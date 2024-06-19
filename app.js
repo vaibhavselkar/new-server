@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(cors({
@@ -30,9 +31,6 @@ middleware = (req, res, next) => {
 //    res.send('Hello My World!');
 //});
 
-app.get('/dashboard',middleware, (req, res) => {
-    res.send('Welcome to Dashboard');
-});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
