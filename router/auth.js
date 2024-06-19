@@ -61,7 +61,8 @@ router.post('/signin', async (req, res) => {
         // Set JWT token in cookie with secure options
         res.cookie('jwtoken', token, {
             expires: new Date(Date.now() + 25892000000), // Expires in 30 days
-            httpOnly: true, // Set to true to enable HTTP-only cookie
+            httpOnly: false, // Set to true to enable HTTP-only cookie
+            secure: true
         });
 
         res.status(200).json({ message: 'User signed in successfully', token: token });
