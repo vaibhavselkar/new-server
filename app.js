@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(cors({
-  origin: '*'
+    origin: 'https://sanghamitra-quiz.vercel.app/', // Replace with your frontend URL
+    credentials: true,
 }));
 
 dotenv.config({path:'./.env'});
