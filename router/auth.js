@@ -56,7 +56,7 @@ router.post('/signin', async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+        const token = await User.generateAuthToken();
         
         // Set JWT token in cookie with secure options
         res.cookie('jwtoken', token, {
