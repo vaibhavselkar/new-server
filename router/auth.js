@@ -65,6 +65,37 @@ router.post('/signin', async (req, res) => {
             secure: process.env.NODE_ENV === 'production', // Set secure to true in production
             sameSite: 'None'
         });
+
+         // Set user ID cookie
+        res.cookie('userID', user._id.toString(), {
+            maxAge: 3600000, // 1 hour
+            httpOnly: true, // Accessible only by web server
+            secure: process.env.NODE_ENV === 'production', // Secure cookie for HTTPS
+            sameSite: 'Lax', // Sent with top-level navigation and same-site requests
+        });
+
+        // Set user preference cookie
+        res.cookie('userPreference', 'darkMode', {
+            maxAge: 900000, // 15 minutes
+            httpOnly: false, // Accessible by client-side JavaScript
+            secure: process.env.NODE_ENV === 'production', // Secure cookie for HTTPS
+            sameSite: 'Strict', // Only sent in first-party context
+        });
+
+        // Set session ID cookie
+        res.cookie('sessionID', 'someUniqueSessionID', {
+            maxAge: 3600000, // 1 hour
+            httpOnly: true, // Accessible only by web server
+            secure: process.env.NODE_ENV === 'production', // Secure cookie for HTTPS
+            sameSite: 'Lax', // Sent with top-level navigation and same-site requests
+        });
+
+        console.log('Token and additional cookies saved:', {
+            token,
+            userID: user._id.toString(),
+            userPreference: 'darkMode',
+            sessionID: 'someUniqueSessionID'
+        });
         console.log('Token saved in cookie:', token);
 
         res.status(200).json({ message: 'User signed in successfully', token: token });
