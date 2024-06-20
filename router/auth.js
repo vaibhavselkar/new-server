@@ -59,7 +59,7 @@ router.post('/signin', async (req, res) => {
         const token = await user.generateAuthToken();
         
         // Set JWT token in cookie with secure options
-        res.cookie('jwtoken', token);
+        // res.cookie('jwtoken', token);
         res.cookie('name', 'geeksforgeeks');
         console.log('Token saved in cookie:', token);
 
