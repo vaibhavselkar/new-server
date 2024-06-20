@@ -13,7 +13,7 @@ app.use(cors({
 dotenv.config({path:'./.env'});
 require('./db/conn');
 //const User = require('./model/userSchema');
-
+app.use(cookieParser());
 app.use(express.json());
 
 //here we link the router files to make our route easy
