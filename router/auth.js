@@ -62,9 +62,11 @@ router.post('/signin', async (req, res) => {
         res.cookie('jwtoken', token, {
             expires: new Date(Date.now() + 25892000000), // Expires in 30 days
             httpOnly: true, // Set to true to enable HTTP-only cookie
-            secure: true', // Set secure to true in production
-            sameSite: 'None'
+            secure: process.env.NODE_ENV === 'production', // Set secure to true in production
+            sameSite: 'None' // Ensure this matches your environment setup
         });
+
+        console.log('Token saved in cookie:', token);
 
         res.status(200).json({ message: 'User signed in successfully', token: token });
     } catch (error) {
