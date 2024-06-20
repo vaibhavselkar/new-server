@@ -29,18 +29,6 @@ app.use(require('./router/auth'));
 
 const PORT = process.env.PORT || 4000;
 
-// Middleware
-middleware = (req, res, next) => {
-    console.log('Hello Middleware');
-    next();
-}
-
-
-//app.get('/', (req, res) => {
-//    res.send('Hello My World!');
-//});
-
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
