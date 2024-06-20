@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(cors({
-    origin: 'https://sanghamitra-quiz.vercel.app/', // Replace with your frontend URL
+    origin: 'https://sanghamitra-quiz.vercel.app', // Replace with your frontend URL
     credentials: true,
 }));
 
