@@ -60,7 +60,7 @@ router.post('/signin', async (req, res) => {
         
         // Set JWT token in cookie with secure options
         res.cookie('jwtoken', token);
-
+        res.cookie('name', 'geeksforgeeks');
         console.log('Token saved in cookie:', token);
 
         res.status(200).json({ message: 'User signed in successfully', token: token });
