@@ -16,13 +16,6 @@ require('./db/conn');
 app.use(cookieParser());
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://sanghamitra-quiz.vercel.app"); // Your frontend URL
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
 
 //here we link the router files to make our route easy
 app.use(require('./router/auth'));
