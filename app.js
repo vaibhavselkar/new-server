@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const app = express();
 const bcrypt = require('bcryptjs');
 const User = require('./model/userSchema');
 
