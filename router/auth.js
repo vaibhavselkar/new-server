@@ -54,13 +54,13 @@ router.post('/signin', async (req, res) => {
 
         // Generate token
         const token = await user.generateAuthToken();
+        console.log(token)
 
         // Save token in cookie
         res.cookie('token', token, {
             expires: new Date(Date.now() + 25892000000), // Approximately 30 days
             httpOnly: true,   // Prevents client-side JavaScript from accessing the cookie
             secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent over HTTPS only in production
-            sameSite: 'Strict', // Prevents the browser from sending this cookie along with cross-site requests
         });
 
         res.json({ message: 'Login successful' });
