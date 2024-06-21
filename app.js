@@ -4,6 +4,7 @@ const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
+const User = require('./model/userSchema');
 
 app.use(cors({
     origin: 'https://sanghamitra-quiz.vercel.app', // Replace with your frontend URL
