@@ -36,14 +36,35 @@ router.post('/register', async (req, res) => {
 
 })
 
-router.post('/signin', function(req, res){
-    
-        console.log('Token saved in cookie:', token);
+router.post('/signin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-        res.status(200).json({ message: 'User signed in successfully', token: token });
-    } catch (error) {
-        console.error('Error signing in user:', error);
-        res.status(500).json({ error: 'Server error, failed to sign in' });
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate token
+        const token = await user.generateAuthToken();
+
+        // Save token in cookie
+        res.cookie('jwtoken', token, {
+            expires: new Date(Date.now() + 25892000000),
+            httpOnly: true,
+        });
+
+        res.json({ message: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
