@@ -27,8 +27,10 @@ app.use((req, res, next) => {
 //here we link the router files to make our route easy
 app.use(require('./router/auth'));
 
-app.get('/swift', (req, res) => {
-    res.cookie('swift', 'speed')
+app.get('/api', function(req, res){
+   // Setting the below key-value pair
+   res.cookie('name', 'tutorialsPoint');
+   res.send("Cookies are set");
 });
 
 const PORT = process.env.PORT || 4000;
