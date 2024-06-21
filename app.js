@@ -49,7 +49,7 @@ app.post('/signin', async (req, res) => {
         const token = await user.generateAuthToken();
 
         // Save token in cookie
-        res.cookie('jwtoken', token, {
+        res.cookie('jwtoken', 'token', {
             httpOnly: true,
             secure: true,
             sameSite: 'none'
