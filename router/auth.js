@@ -44,19 +44,19 @@ router.post('/signin', function(req, res){
     }
 
     try {
-        const user = await User.findOne({ email: email });
+        const user =  User.findOne({ email: email });
 
         if (!user) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        const token = await user.generateAuthToken();
+        const token = user.generateAuthToken();
         
         // Set JWT token in cookie with secure options
         res.cookie('jwtoken', token, {
