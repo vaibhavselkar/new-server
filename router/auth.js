@@ -59,7 +59,7 @@ router.post('/signin', async (req, res) => {
         // Save token in cookie
         res.cookie('jwtoken', token, {
             expires: new Date(Date.now() + 25892000000), // Approximately 30 days
-            httpOnly: false,   // Prevents client-side JavaScript from accessing the cookie
+            httpOnly: true,   // Prevents client-side JavaScript from accessing the cookie
             secure: true, // Ensures the cookie is sent over HTTPS only in production
             sameSite: 'None',
         });
