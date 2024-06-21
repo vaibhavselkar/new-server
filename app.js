@@ -4,18 +4,17 @@ const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
-const app = express();
 const User = require('./model/userSchema');
 
 app.use(cors({
     origin: 'https://sanghamitra-quiz.vercel.app', // Replace with your frontend URL
     credentials: true,
 }));
-
+app.use(cookieParser());
 dotenv.config({path:'./.env'});
 require('./db/conn');
-//const User = require('./model/userSchema');
-app.use(cookieParser());
+
+
 app.use(express.json());
 
 app.use((req, res, next) => {
