@@ -27,6 +27,38 @@ app.use((req, res, next) => {
 //here we link the router files to make our route easy
 app.use(require('./router/auth'));
 
+app.post('/signin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate token
+        const token = await user.generateAuthToken();
+
+        // Save token in cookie
+        res.cookie('jwtoken', token, {
+            expires: new Date(Date.now() + 25892000000),
+            httpOnly: true,
+        });
+
+        res.json({ message: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 app.get('/api', function(req, res){
    // Setting the below key-value pair
    res.cookie('name', 'tutorialsPoint');
