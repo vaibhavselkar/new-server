@@ -36,6 +36,40 @@ router.post('/register', async (req, res) => {
 
 });
 
+app.post('/signin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate token
+        const token = await user.generateAuthToken();
+
+        // Save token in cookie
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + 25892000000), // Approximately 30 days
+            httpOnly: true,   // Prevents client-side JavaScript from accessing the cookie
+            secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent over HTTPS only in production
+            sameSite: 'Strict', // Prevents the browser from sending this cookie along with cross-site requests
+        });
+
+        res.json({ message: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 
 router.get('/dashboard', authenticate, (req, res) => {
     console.log('Inside /dashboard route')
