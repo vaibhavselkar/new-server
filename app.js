@@ -50,11 +50,9 @@ app.post('/signin', async (req, res) => {
 
         // Save token in cookie
         res.cookie('jwtoken', token, {
-            expires: new Date(Date.now() + 25892000000),
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
-            signed: true  // Adds a signature to the cookie
+            sameSite: 'none'
         });
 
         res.json({ message: 'Login successful' });
