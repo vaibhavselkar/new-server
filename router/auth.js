@@ -61,7 +61,7 @@ router.post('/signin', async (req, res) => {
             expires: new Date(Date.now() + 25892000000), // Approximately 30 days
             httpOnly: true,   // Prevents client-side JavaScript from accessing the cookie
             secure: true, // Ensures the cookie is sent over HTTPS only in production
-            sameSite: 'lax',
+            sameSite: 'none',
         });
 
         res.json({ message: 'Login successful' });
