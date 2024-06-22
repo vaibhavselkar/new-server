@@ -73,11 +73,12 @@ router.post('/signin', async (req, res) => {
 
 
 router.get('/dashboard', authenticate, (req, res) => {
-    console.log('Inside /dashboard route')
-    res.send(req.rootUser);
-    res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
+    console.log('Inside /dashboard route');
     console.log('User Data:', req.rootUser);
+    res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
+
+
 
 // New route to fetch all documents from the 'sample' collection
 router.get('/samples', async (req, res) => {
