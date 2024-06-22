@@ -4,12 +4,14 @@ const User = require('../model/userSchema');
 const authenticate = async (req, res, next) => {
     try {
         const token = req.cookies.jwtoken;
+        console.log('Token from cookie:', token);
+
         if (!token) {
-            throw new Error('No token provided');
+            return res.status(401).json({ error: 'No token provided, authorization denied' });
         }
 
-        const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
-        const rootUser = await User.findOne({ _id: verifiedToken._id, "tokens.token": token });
+        const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
+        const rootUser = await User.findOne({ _id: verifyToken._id, 'tokens.token': token });
 
         if (!rootUser) {
             throw new Error('User not found');
