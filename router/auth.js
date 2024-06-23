@@ -37,36 +37,38 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Please provide all fields' });
+    }
+
     try {
-        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
 
-        // Check if user exists
-        const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ error: 'Invalid email or password' });
+            return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        // Check password
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email or password' });
+            return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        // Generate token
         const token = await user.generateAuthToken();
-        console.log(token)
+        console.log('Generated token:', token);
 
-        // Save token in cookie
         res.cookie('jwtoken', token, {
             sameSite: 'None',
             secure: true, // Ensure the cookie is only sent over HTTPS
             httpOnly: true, // Ensures the cookie is not accessible via JavaScript
         });
+        res.status(200).json({ message: 'User signed in successfully', token: token });
 
-        res.json({ message: 'Login successful' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+    } catch (error) {
+        console.error('Error signing in user:', error);
+        res.status(500).json({ error: 'Server error, failed to sign in' });
     }
 });
 
