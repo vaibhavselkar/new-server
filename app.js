@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./model/userSchema');
 
 app.use(cors({
-    origin: 'https://sanghamitra-quiz.vercel.app', // Replace with your frontend URL
+    origin: 'http://127.0.0.1:5501', // Replace with your frontend URL
     credentials: true,
 }));
 
