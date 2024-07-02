@@ -63,7 +63,7 @@ router.post('/signin', async (req, res) => {
         res.cookie('jwtoken', token, {
             sameSite: 'None',
             secure: true, // Ensure the cookie is only sent over HTTPS
-            httpOnly: false, // Ensures the cookie is not accessible via JavaScript
+            httpOnly: true, // Ensures the cookie is not accessible via JavaScript
             path: '/',
         });
         res.status(200).json({ message: 'User signed in successfully', token: token });
