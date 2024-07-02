@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const cookieParser = require('cookie-parser');
-
+router.use(cookieParser());
+env = require('dotenv').config();
 const authenticate = require('../middleware/authenticate');
 
 require('../db/conn');
@@ -62,7 +63,8 @@ router.post('/signin', async (req, res) => {
         res.cookie('jwtoken', token, {
             sameSite: 'None',
             secure: true, // Ensure the cookie is only sent over HTTPS
-            httpOnly: true, // Ensures the cookie is not accessible via JavaScript
+            httpOnly: false, // Ensures the cookie is not accessible via JavaScript
+            path: '/',
         });
         res.status(200).json({ message: 'User signed in successfully', token: token });
 
@@ -72,6 +74,24 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+// Middleware to check for the JWT token
+router.get('/check-auth', (req, res) => {
+    const token = req.cookies.jwtoken;
+
+    if (token) {
+        jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+            if (err) {
+                console.log(err);
+                return res.status(403).json({ authenticated: false });
+            }
+            res.status(200).json({ authenticated: true });
+            console.log('User:', user);
+        });
+    } else {
+        res.status(200).json({ authenticated: false });
+        console.log('No token provided');
+    }
+});
 
 router.get('/dashboard', authenticate, (req, res) => {
     console.log('Inside /dashboard route');
@@ -81,8 +101,13 @@ router.get('/dashboard', authenticate, (req, res) => {
 
 // Logout route
 router.get('/logout', (req, res) => {
-    res.clearCookie('jwtoken', { path: '/' });
-    res.status(200).json({ message: 'User logged out successfully' });
+    res.clearCookie('jwtoken', {
+        path: '/',
+        sameSite: 'None',
+        secure: true,
+        httpOnly: true,
+    });
+    res.status(200).send({ message: 'Logout successful' });
 });
 
 
