@@ -104,7 +104,7 @@ router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         path: '/',
         httpOnly: true,
-        sameSite: 'Lax',
+        sameSite: 'None',
         secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
