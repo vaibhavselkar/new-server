@@ -103,9 +103,9 @@ router.get('/dashboard', authenticate, (req, res) => {
 router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         path: '/',
-        sameSite: 'None',
-        secure: true,
         httpOnly: true,
+        sameSite: 'None',
+        secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
 });
