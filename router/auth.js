@@ -99,11 +99,11 @@ router.get('/dashboard', authenticate, (req, res) => {
     res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
 
-// Logout route
 router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         path: '/',
         httpOnly: true,
+        sameSite: 'None',
         secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
