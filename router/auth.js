@@ -61,11 +61,11 @@ router.post('/signin', async (req, res) => {
         console.log('Generated token:', token);
 
         res.cookie('jwtoken', token, {
-            sameSite: 'None',
             domain: 'sanghamitra-learning.vercel.app',
-            secure: true, // Ensure the cookie is only sent over HTTPS
-            httpOnly: true, // Ensures the cookie is not accessible via JavaScript
             path: '/',
+            secure: true,
+            httpOnly: true,
+            sameSite: 'None',
         });
         res.status(200).json({ message: 'User signed in successfully', token: token });
 
