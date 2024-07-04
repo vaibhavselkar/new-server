@@ -62,7 +62,6 @@ router.post('/signin', async (req, res) => {
 
         res.cookie('jwtoken', token, {
             domain: 'sanghamitra-learning.vercel.app',
-            path: '/',
             secure: true,
             httpOnly: true,
             sameSite: 'None',
