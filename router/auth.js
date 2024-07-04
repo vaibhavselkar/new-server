@@ -104,11 +104,11 @@ router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         path: '/',
         httpOnly: true,
-        sameSite: 'None',
         secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
 });
+
 
 
 // New route to fetch all documents from the 'sample' collection
