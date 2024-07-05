@@ -101,7 +101,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 
 router.get('/logout',(req, res) => {
   res.clearCookie('jwtoken');
-  res.status(200);
+  return res.status(200);
 });
 
 
