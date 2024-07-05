@@ -107,7 +107,6 @@ router.get('/logout', (req, res) => {
             httpOnly: true,
             sameSite: 'None',
             path: '/',
-            domain: 'sanghamitra-learning.vercel.app', // Add this if using subdomains
         });
         console.log('Cookie cleared');
         res.status(200).send({ message: 'Logout successful' });
