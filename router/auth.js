@@ -100,7 +100,20 @@ router.get('/dashboard', authenticate, (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('jwtoken');
+    console.log('Logout endpoint called');
+    try {
+        res.clearCookie('jwtoken', {
+            secure: true,
+            httpOnly: true,
+            sameSite: 'None',
+            path: '/',
+        });
+        console.log('Cookie cleared');
+        res.status(200).send({ message: 'Logout successful' });
+    } catch (error) {
+        console.error('Error during logout:', error);
+        res.status(500).send({ message: 'Logout failed' });
+    }
 });
 
 
