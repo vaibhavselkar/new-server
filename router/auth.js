@@ -60,7 +60,7 @@ router.post('/signin', async (req, res) => {
         const token = await user.generateAuthToken();
         console.log('Generated token:', token);
 
-        res.cookie('jwtoken',{
+        res.cookie('jwtoken', token,{
             path: '/',
             httpOnly: false,
             sameSite: 'None',
@@ -102,7 +102,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 router.get('/logout', (req, res) => {
     console.log('Logout endpoint called');
     try {
-        res.clearCookie('jwtoken', token,{
+        res.clearCookie('jwtoken',{
             secure: true,
             httpOnly: true,
             sameSite: 'None',
