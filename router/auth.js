@@ -63,7 +63,6 @@ router.post('/signin', async (req, res) => {
         res.cookie('jwtoken', token, {
             path: '/',
             httpOnly: false,
-            sameSite: 'None',
             secure: true
         });
         res.status(200).json({ message: 'User signed in successfully', token: token });
@@ -103,7 +102,6 @@ router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         path: '/',
         httpOnly: false,
-        sameSite: 'None',
         secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
