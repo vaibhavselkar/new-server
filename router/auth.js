@@ -99,10 +99,14 @@ router.get('/dashboard', authenticate, (req, res) => {
     res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
 
-router.get('/logout', function(req, res) {
-   res.clearCookie('jwtoken', { expires: new Date(), path: '/' });
-   res.send('cookie deleted');
-   console.log(Date())
+router.get('/logout', (req, res) => {
+   res.cookie('jwtoken', '', {
+        expires: new Date(0),
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true
+    });
+    res.send('Cookie deleted');
 });
 
 
