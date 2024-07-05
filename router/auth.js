@@ -102,6 +102,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
         sameSite: 'None',
+        Domain: 'sanghamitra-learning.vercel.app',
         path: '/',
         httpOnly: false,
         secure: true
