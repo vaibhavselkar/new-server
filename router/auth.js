@@ -100,15 +100,9 @@ router.get('/dashboard', authenticate, (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.cookie('jwtoken', '', {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'None',
-        path: '/',
-        expires: new Date(0) // Expire the cookie immediately
-    });
-    res.status(200).send({ message: 'Logout successful' });
+    res.clearCookie('jwtoken');
 });
+
 
 
 
