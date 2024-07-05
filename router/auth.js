@@ -100,11 +100,11 @@ router.get('/dashboard', authenticate, (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('jwtoken', {
+    res.cookie('jwtoken', null,{
         sameSite: 'None',
-        Domain: 'sanghamitra-learning.vercel.app',
         path: '/',
         httpOnly: false,
+        expires: new Date(Date.now())
         secure: true
     });
     res.status(200).send({ message: 'Logout successful' });
