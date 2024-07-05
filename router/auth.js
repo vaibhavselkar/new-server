@@ -99,6 +99,8 @@ router.get('/dashboard', authenticate, (req, res) => {
     res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
 
+//logout route
+
 router.get('/logout', (req, res) => {
    res.cookie('jwtoken', '', {
         expires: new Date(0),
@@ -108,10 +110,6 @@ router.get('/logout', (req, res) => {
     });
     res.send('Cookie deleted');
 });
-
-
-
-
 
 // New route to fetch all documents from the 'sample' collection
 router.get('/samples', async (req, res) => {
