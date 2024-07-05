@@ -99,21 +99,9 @@ router.get('/dashboard', authenticate, (req, res) => {
     res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
 
-router.get('/logout', (req, res) => {
-    console.log('Logout endpoint called');
-    try {
-        res.clearCookie('jwtoken',{
-            secure: true,
-            httpOnly: true,
-            sameSite: 'None',
-            path: '/',
-        });
-        console.log('Cookie cleared');
-        res.status(200).send({ message: 'Logout successful' });
-    } catch (error) {
-        console.error('Error during logout:', error);
-        res.status(500).send({ message: 'Logout failed' });
-    }
+router.get('/logout',(req, res) => {
+  res.clearCookie('jwtoken');
+  res.status(200);
 });
 
 
