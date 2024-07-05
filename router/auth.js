@@ -102,7 +102,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 router.get('/logout', (req, res) => {
     console.log('Logout endpoint called');
     try {
-        res.clearCookie('jwtoken', {
+        res.clearCookie('jwtoken', token,{
             secure: true,
             httpOnly: true,
             sameSite: 'None',
