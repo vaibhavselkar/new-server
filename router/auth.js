@@ -101,6 +101,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 
 router.get('/logout', (req, res) => {
     res.clearCookie('jwtoken', {
+        sameSite: 'None',
         path: '/',
         httpOnly: false,
         secure: true
