@@ -102,7 +102,7 @@ router.get('/dashboard', authenticate, (req, res) => {
 //logout route
 
 router.get('/logout', (req, res) => {
-   res.cookie('jwtoken', '', {
+    res.cookie('jwtoken', null, {
         expires: new Date(0),
         httpOnly: true,
         sameSite: 'None',
