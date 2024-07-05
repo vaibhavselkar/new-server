@@ -104,7 +104,7 @@ router.get('/logout', (req, res) => {
         path: '/',
         httpOnly: true,
         sameSite: 'None',
-        secure: true
+        secure: false
     });
     res.status(200).send({ message: 'Logout successful' });
 });
