@@ -101,15 +101,30 @@ router.get('/dashboard', authenticate, (req, res) => {
 
 //logout route
 
-router.get('/logout', (req, res) => {
-    res.cookie('jwtoken', null, {
-        expires: new Date(0),
-        httpOnly: true,
-        sameSite: 'None',
-        secure: true
-    });
-    res.send('Cookie deleted');
+router.get('/logout', authenticate, (req, res) => {
+    try {
+        res.clearCookie('jwtoken');
+        console.log('Logout successful');
+        res.status(200).send({ message: 'Logout successful' });
+    } catch (error) {
+        console.error('Error clearing cookie:', error);
+        res.status(500).send({ error: 'Logout failed' });
+    }
 });
+        
+        
+        
+        
+        
+        
+        //res.cookie('jwtoken', null, {
+       // expires: new Date(0),
+        //\httpOnly: true,
+        //sameSite: 'None',
+        //secure: true
+    //});
+    //res.send('Cookie deleted');
+// });
 
 // New route to fetch all documents from the 'sample' collection
 router.get('/samples', async (req, res) => {
