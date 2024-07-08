@@ -57,16 +57,10 @@ router.post('/signin', async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        const token = await user.generateAuthToken();
-        console.log('Generated token:', token);
+        req.session.userId = user._id;
+        console.log('User session set:', req.session.userId);
 
-        res.cookie('jwtoken', token,{
-            path: '/',
-            httpOnly: true,
-            sameSite: 'None',
-            secure: true
-        });
-        res.status(200).json({ message: 'User signed in successfully', token: token });
+        res.status(200).json({ message: 'User signed in successfully' });
 
     } catch (error) {
         console.error('Error signing in user:', error);
@@ -76,20 +70,10 @@ router.post('/signin', async (req, res) => {
 
 // Middleware to check for the JWT token
 router.get('/check-auth', (req, res) => {
-    const token = req.cookies.jwtoken;
-
-    if (token) {
-        jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-            if (err) {
-                console.log(err);
-                return res.status(403).json({ authenticated: false });
-            }
-            res.status(200).json({ authenticated: true });
-            console.log('User:', user);
-        });
+    if (req.session.userId) {
+        res.status(200).json({ authenticated: true });
     } else {
         res.status(200).json({ authenticated: false });
-        console.log('No token provided');
     }
 });
 
@@ -99,32 +83,22 @@ router.get('/dashboard', authenticate, (req, res) => {
     res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
 });
 
-//logout route
 
-router.get('/logout', authenticate, (req, res) => {
-    try {
-        res.clearCookie('jwtoken');
-        console.log('Logout successful');
-        res.status(200).send({ message: 'Logout successful' });
-    } catch (error) {
-        console.error('Error clearing cookie:', error);
-        res.status(500).send({ error: 'Logout failed' });
-    }
+// Logout route
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid', {
+            path: '/',
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true
+        });
+        res.status(200).json({ message: 'Logout successful' });
+    });
 });
-        
-        
-        
-        
-        
-        
-        //res.cookie('jwtoken', null, {
-       // expires: new Date(0),
-        //\httpOnly: true,
-        //sameSite: 'None',
-        //secure: true
-    //});
-    //res.send('Cookie deleted');
-// });
 
 // New route to fetch all documents from the 'sample' collection
 router.get('/samples', async (req, res) => {
