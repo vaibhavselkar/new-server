@@ -22,6 +22,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        sameSite: 'None'
+    }
+}));
+
 //here we link the router files to make our route easy
 app.use(require('./router/auth'));
 
