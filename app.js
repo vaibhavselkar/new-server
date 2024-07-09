@@ -37,7 +37,7 @@ app.use(session({
 app.use(require('./router/auth'));
 
 // Example route to set cookies
-app.get('/api/example', (req, res) => {
+app.get('/example', (req, res) => {
     res.cookie('name', 'tutorialsPoint');
     res.send("Cookies are set");
 });
