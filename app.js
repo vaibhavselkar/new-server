@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-
+const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -27,6 +27,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
     cookie: {
         secure: true,
         httpOnly: true,
