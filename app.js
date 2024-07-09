@@ -5,7 +5,6 @@ const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const authRouter = require('./router/auth');
 
 dotenv.config({ path: './.env' });
 
@@ -35,7 +34,7 @@ app.use(session({
 }));
 
 // Routes
-app.use('/api', authRouter);
+app.use(require('./router/auth'));
 
 // Example route to set cookies
 app.get('/api/example', (req, res) => {
