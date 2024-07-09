@@ -1,57 +1,52 @@
 const dotenv = require('dotenv');
-const express = require('express');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
+const express = require('express');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
-
-dotenv.config({ path: './.env' });
-
 const app = express();
-const PORT = process.env.PORT || 4000;
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
+const User = require('./model/userSchema');
 
-// Middleware
+
 app.use(cors({
-    origin: 'https://sanghamitra-learning.vercel.app',
+    origin: 'https://sanghamitra-learning.vercel.app', // Replace with your frontend URL
     credentials: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-// Session configuration
+dotenv.config({path:'./.env'});
+require('./db/conn');
+//const User = require('./model/userSchema');
+
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
     cookie: {
-        secure: true,    // Requires HTTPS
-        httpOnly: true,  // Ensures cookies are not accessible via JavaScript
-        sameSite: 'None' // Ensures cookies are sent on cross-origin requests
+        secure: true,
+        httpOnly: true,
+        sameSite: 'None'
     }
 }));
 
-// Routes
 app.use(require('./router/auth'));
 
-// Example route to set cookies
-app.get('/example', (req, res) => {
-    res.cookie('name', 'tutorialsPoint');
-    res.send("Cookies are set");
+
+app.get('/api', function(req, res){
+   // Setting the below key-value pair
+   res.cookie('name', 'tutorialsPoint');
+   res.send("Cookies are set");
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-}).then(() => {
-    console.log("Connected to MongoDB");
-    // Start server
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-}).catch(err => console.error("MongoDB connection error:", err));
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+    console.log(Server is running on port ${PORT});
+});
