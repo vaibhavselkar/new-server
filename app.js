@@ -8,6 +8,7 @@ const app = express();
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const User = require('./model/userSchema');
+const authRouter = require('./router/auth');
 
 app.use(cors({
     origin: 'https://sanghamitra-learning.vercel.app', // Replace with your frontend URL
@@ -35,8 +36,8 @@ app.use(session({
     }
 }));
 
-//here we link the router files to make our route easy
-app.use(require('./router/auth'));
+// Mount the auth router under /api/
+app.use('/api', authRouter);
 
 
 app.get('/api', function(req, res){
