@@ -24,6 +24,29 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.DATABASE,
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        secure: true,    // Requires HTTPS
+        httpOnly: true,  // Ensures cookies are not accessible via JavaScript
+        sameSite: 'None' // Ensures cookies are sent on cross-origin requests
+    }
+}));
+
+// Connect to MongoDB
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("Connected to MongoDB");
+}).catch(err => console.error("MongoDB connection error:", err));
+
 // Routes
 app.use('/api', authRouter);
 
