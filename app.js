@@ -1,25 +1,22 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo');
-const cors = require('cors');
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const app = express();
 const session = require('express-session');
-const bcrypt = require('bcryptjs');
+const MongoStore = require('connect-mongo');
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const mongoose = require('mongoose');
 const User = require('./model/userSchema');
 
+const app = express();
 
+// Load environment variables
+dotenv.config({ path: './.env' });
+
+// Middleware setup
 app.use(cors({
-    origin: 'https://sanghamitra-learning.vercel.app', // Replace with your frontend URL
+    origin: 'https://sanghamitra-learning.vercel.app',
     credentials: true,
 }));
-
-dotenv.config({path:'./.env'});
-require('./db/conn');
-//const User = require('./model/userSchema');
-
-
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SECRET_KEY,
@@ -32,37 +29,20 @@ app.use(session({
         secure: process.env.NODE_ENV === 'production',
     }
 }));
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-    console.log('Session config:', req.session.cookie);
-    next();
-});
-
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
-    cookie: {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-    }
-}));
-
+// Routes
 app.use(require('./router/auth'));
 
-app.get('/api', function(req, res){
-   // Setting the below key-value pair
-   res.cookie('name', 'tutorialsPoint');
-   res.send("Cookies are set");
+// Example route setting a cookie
+app.get('/api', function(req, res) {
+    res.cookie('name', 'tutorialsPoint');
+    res.send("Cookies are set");
 });
 
+// Start server
 const PORT = process.env.PORT || 4000;
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
