@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./model/userSchema');
+const authRouter = require('./router/auth');
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/api', require('./routes/auth')); 
+app.use('/api', authRouter);
 
 // Example route setting a cookie
 app.get('/api/example', function(req, res) {
