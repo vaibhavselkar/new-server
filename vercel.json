@@ -15,7 +15,8 @@
   ],
   "env": {
     "DATABASE": "mongodb+srv://sanghamitralearn:sanghamitra%4007@platform.tzqhhat.mongodb.net/sanghamitralearn?retryWrites=true&w=majority&appName=Platform",
-    "SECRET_KEY": "SANGHAMITRAISBUILDINGLEARNINGPLATFORM"
+    "SECRET_KEY": "SANGHAMITRAISBUILDINGLEARNINGPLATFORM",
+    "PORT": "4000"
   },
   "headers": [
     { 
