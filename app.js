@@ -18,28 +18,10 @@ app.use(cors({
     credentials: true,
 }));
 app.use(cookieParser());
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
-    cookie: {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-    }
-}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Debug logging middleware
-app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
-    console.log('Cookies:', req.cookies);
-    console.log('Session:', req.session);
-    next();
-});
 
 // Routes
 app.use(require('./router/auth'));
