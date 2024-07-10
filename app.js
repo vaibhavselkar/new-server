@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/api', require('./routes/api')); 
+app.use('/api', require('./routes/auth')); 
 
 // Example route setting a cookie
 app.get('/api', function(req, res) {
