@@ -24,10 +24,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+    console.log('Session config:', req.session.cookie);
+    next();
+});
+
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
     cookie: {
         httpOnly: true,
