@@ -24,20 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE }),
-    cookie: {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'None'
-    }
-}));
+
 
 app.use(require('./router/auth'));
-
 
 app.get('/api', function(req, res){
    // Setting the below key-value pair
