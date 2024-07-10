@@ -27,6 +27,10 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use('/api', authRouter);
 
+app.get('/', function(req, res) {
+    res.send("Hello its working!")
+});
+
 // Example route setting a cookie
 app.get('/api/example', function(req, res) {
     res.cookie('name', 'tutorialsPoint');
