@@ -46,9 +46,10 @@ app.use(session({
         collectionName: 'sessions'
     }),
     cookie: {
-        secure: true,    // Requires HTTPS
-        httpOnly: true,  // Ensures cookies are not accessible via JavaScript
-        sameSite: 'None' // Ensures cookies are sent on cross-origin requests
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'none'
     }
 }));
 
