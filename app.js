@@ -22,7 +22,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 app.use(cookieParser());
-
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
