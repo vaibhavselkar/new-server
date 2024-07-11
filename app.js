@@ -2,11 +2,11 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
-const dotenv = require('dotenv');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./model/userSchema');
 const authRouter = require('./router/auth');
+const dotenv = require('dotenv');
+const cors = require('cors');
 
 const app = express();
 
@@ -14,25 +14,13 @@ const app = express();
 dotenv.config({ path: './.env' });
 
 // Middleware setup
-// Middleware setup
 app.use(cors({
-    origin: 'https://sanghamitra-learning.vercel.app', // Your frontend URL
+    origin: 'https://sanghamitra-learning.vercel.app', // Replace with your frontend URL
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 app.use(cookieParser());
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://sanghamitra-learning.vercel.app");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    if (req.method === 'OPTIONS') {
-        return res.status(200).json({});
-    }
-    next();
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -48,8 +36,8 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // 1 day
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'None'
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: 'None' // Required for cross-site cookies
     }
 }));
 
@@ -67,8 +55,8 @@ mongoose.connect(process.env.DATABASE, {
 app.use('/api', authRouter);
 
 app.get('/', (req, res) => {
-    res.send('Hello World its working');
-})
+    res.send('Hello World');
+});
 
 // Example route setting a cookie
 app.get('/api/example', function(req, res) {
