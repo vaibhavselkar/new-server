@@ -49,7 +49,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24, // 1 day
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'none'
+        sameSite: 'None'
     }
 }));
 
@@ -57,6 +57,8 @@ app.use(session({
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
 }).then(() => {
     console.log("Connected to MongoDB");
 }).catch(err => console.error("MongoDB connection error:", err));
