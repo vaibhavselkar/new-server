@@ -14,9 +14,12 @@ const app = express();
 dotenv.config({ path: './.env' });
 
 // Middleware setup
+// Middleware setup
 app.use(cors({
-    origin: 'https://sanghamitra-learning.vercel.app',
+    origin: 'https://sanghamitra-learning.vercel.app', // Your frontend URL
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 app.use(cookieParser());
 
