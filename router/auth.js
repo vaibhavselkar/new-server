@@ -8,6 +8,7 @@ const session = require('express-session');
 router.use(cookieParser());
 env = require('dotenv').config();
 const authenticate = require('../middleware/authenticate');
+const VocabQuestion = require('../model/vocabSchema');
 
 require('../db/conn');
 const User = require('../model/userSchema');
@@ -105,15 +106,14 @@ router.get('/logout', (req, res) => {
     });
 });
 
-// New route to fetch all documents from the 'sample' collection
-router.get('/vocab', async (req, res) => {
-    try {
-        const samples = await mongoose.connection.db.collection('vocab_questions').find({}).toArray();
-        res.status(200).json(samples);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch samples' });
-        console.log(err);
-    }
+// Endpoint to get all vocabulary questions
+router.get('/vocab-questions', async (req, res) => {
+  try {
+    const questions = await VocabQuestion.find();
+    res.json(questions);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 module.exports = router
