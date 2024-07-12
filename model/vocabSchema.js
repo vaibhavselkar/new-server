@@ -21,6 +21,6 @@ const vocabQuestionSchema = new mongoose.Schema({
   points: { type: Number, required: true }
 });
 
-const VocabQuestion = mongoose.model('VocabQuestion', vocabQuestionSchema);
+const VocabQuestion = mongoose.model('VocabQuestion', vocabQuestionSchema, 'vocab_questions');
 
 module.exports = VocabQuestion;
