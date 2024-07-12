@@ -106,9 +106,9 @@ router.get('/logout', (req, res) => {
 });
 
 // New route to fetch all documents from the 'sample' collection
-router.get('/samples', async (req, res) => {
+router.get('/vocab', async (req, res) => {
     try {
-        const samples = await mongoose.connection.db.collection('sample').find({}).toArray();
+        const samples = await mongoose.connection.db.collection('vocab_questions').find({}).toArray();
         res.status(200).json(samples);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch samples' });
