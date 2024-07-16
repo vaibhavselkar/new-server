@@ -116,4 +116,14 @@ router.get('/vocab-questions', async (req, res) => {
   }
 });
 
+// Endpoint to get vocab scores
+router.get('/vocabscores', async (req, res) => {
+  try {
+    const scores = await VocabScore.find({});
+    res.status(200).json(scores);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router
