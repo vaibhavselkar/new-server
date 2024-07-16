@@ -9,7 +9,7 @@ router.use(cookieParser());
 env = require('dotenv').config();
 const authenticate = require('../middleware/authenticate');
 const VocabQuestion = require('../model/vocabSchema');
-const VocabScores = require('../model/vocabScoreSchema')
+const VocabScore = require('../model/vocabScoreSchema')
 
 require('../db/conn');
 const User = require('../model/userSchema');
