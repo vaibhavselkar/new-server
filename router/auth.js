@@ -127,4 +127,27 @@ router.get('/vocabscores', async (req, res) => {
   }
 });
 
+// POST route to add a new score
+router.post('/vocabscoreadd', async (req, res) => {
+    const { username, email, assessments } = req.body;
+
+    if (!username || !email || !assessments) {
+        return res.status(400).json({ error: 'Please provide all required fields' });
+    }
+
+    try {
+        const newScore = new VocabScore({
+            username,
+            email,
+            assessments
+        });
+
+        const savedScore = await newScore.save();
+        res.status(201).json({ message: 'Score added successfully', data: savedScore });
+    } catch (error) {
+        console.error('Error adding score:', error);
+        res.status(500).json({ error: 'Server error, failed to add score' });
+    }
+});
+
 module.exports = router
