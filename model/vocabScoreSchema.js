@@ -14,7 +14,6 @@ const questionSchema = new mongoose.Schema({
 });
 
 const assessmentSchema = new mongoose.Schema({
-  assessment_id: { type: mongoose.Schema.Types.ObjectId, required: true },
   date: { type: Date, default: Date.now },
   total_score: { type: Number, required: true },
   questions: { type: [questionSchema], required: true }
