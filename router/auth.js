@@ -84,10 +84,24 @@ router.get('/check-auth', (req, res) => {
     }
 });
 
-router.get('/dashboard', authenticate, (req, res) => {
-    console.log('Inside /dashboard route');
-    console.log('User Data:', req.rootUser);
-    res.json({ name: req.rootUser.name, email: req.rootUser.email, token: req.token });
+router.get('/dashboard', authenticate, async (req, res) => {
+    try {
+        console.log('Inside /dashboard route');
+        console.log('User Data:', req.rootUser);
+
+        // ✅ Update login history when the dashboard is accessed
+        await req.rootUser.updateLoginHistory();
+
+        res.json({
+            name: req.rootUser.name,
+            email: req.rootUser.email,
+            token: req.token
+        });
+
+    } catch (error) {
+        console.error('Error in dashboard route:', error);
+        res.status(500).json({ error: 'Server error, failed to load dashboard' });
+    }
 });
 
 
